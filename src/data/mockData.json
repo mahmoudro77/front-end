@@ -1,0 +1,256 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Sarah & Ahmad's Wedding",
+      "date": "Oct 18, 2025",
+      "time": "6:00 PM",
+      "venue": "Grand Palace Hall",
+      "guests": 120,
+      "status": "Confirmed",
+      "tone": "sage",
+      "art": "wedding",
+      "template": "Wedding",
+      "total": 12000,
+      "deposit": 12000,
+      "balance": 0,
+      "paymentStatus": "PAID",
+      "client": "Sarah Haddad",
+      "phone": "+961 70 111 222"
+    },
+    {
+      "id": 2,
+      "title": "Nour's Engagement",
+      "date": "Oct 25, 2025",
+      "time": "7:00 PM",
+      "venue": "The Royal Venue",
+      "guests": 75,
+      "status": "Confirmed",
+      "tone": "sage",
+      "art": "engagement",
+      "template": "Wedding",
+      "total": 8500,
+      "deposit": 4000,
+      "balance": 4500,
+      "paymentStatus": "PARTIAL",
+      "client": "Nour Tabet",
+      "phone": "+961 71 222 333"
+    },
+    {
+      "id": 3,
+      "title": "TechCorp Annual Gala",
+      "date": "Nov 08, 2025",
+      "time": "7:30 PM",
+      "venue": "Skyline Hotel",
+      "guests": 200,
+      "status": "Planning",
+      "tone": "gold",
+      "art": "gala",
+      "template": "General Event",
+      "total": 18000,
+      "deposit": 6000,
+      "balance": 12000,
+      "paymentStatus": "PARTIAL",
+      "client": "TechCorp",
+      "phone": "+961 1 555 888"
+    },
+    {
+      "id": 4,
+      "title": "Lina & Omar's Wedding",
+      "date": "Nov 22, 2025",
+      "time": "6:30 PM",
+      "venue": "Garden Terrace",
+      "guests": 150,
+      "status": "Confirmed",
+      "tone": "sage",
+      "art": "garden",
+      "template": "Wedding",
+      "total": 14500,
+      "deposit": 14500,
+      "balance": 0,
+      "paymentStatus": "PAID",
+      "client": "Lina Haddad",
+      "phone": "+961 76 333 444"
+    },
+    {
+      "id": 5,
+      "title": "Rana's Birthday",
+      "date": "Dec 06, 2025",
+      "time": "8:00 PM",
+      "venue": "Vista Lounge",
+      "guests": 50,
+      "status": "Inquiry",
+      "tone": "lavender",
+      "art": "birthday",
+      "template": "General Event",
+      "total": 4200,
+      "deposit": 0,
+      "balance": 4200,
+      "paymentStatus": "UNPAID",
+      "client": "Rana Saad",
+      "phone": "+961 79 444 555"
+    },
+    {
+      "id": 6,
+      "title": "Corporate Meeting",
+      "date": "Dec 15, 2025",
+      "time": "10:00 AM",
+      "venue": "Business Center",
+      "guests": 80,
+      "status": "Draft",
+      "tone": "gray",
+      "art": "meeting",
+      "template": "General Event",
+      "total": 3800,
+      "deposit": 0,
+      "balance": 3800,
+      "paymentStatus": "UNPAID",
+      "client": "Business Center",
+      "phone": ""
+    },
+    {
+      "id": 7,
+      "title": "Omar's Graduation",
+      "date": "Dec 20, 2025",
+      "time": "5:00 PM",
+      "venue": "Royal Garden",
+      "guests": 100,
+      "status": "Confirmed",
+      "tone": "sage",
+      "art": "garden",
+      "template": "General Event",
+      "total": 6200,
+      "deposit": 3000,
+      "balance": 3200,
+      "paymentStatus": "PARTIAL",
+      "client": "Omar Khoury",
+      "phone": "+961 81 555 666"
+    },
+    {
+      "id": 8,
+      "title": "Christmas Party",
+      "date": "Dec 28, 2025",
+      "time": "8:30 PM",
+      "venue": "Skyline Hotel",
+      "guests": 120,
+      "status": "Planning",
+      "tone": "gold",
+      "art": "party",
+      "template": "General Event",
+      "total": 9000,
+      "deposit": 2500,
+      "balance": 6500,
+      "paymentStatus": "PARTIAL",
+      "client": "Skyline Hotel",
+      "phone": "+961 1 777 999"
+    }
+  ],
+  "modules": {
+    "Dashboard": {
+      "title": "Dashboard",
+      "subtitle": "A clear view of your events operation.",
+      "stats": [
+        ["Total Events", "24", "+12% this month"],
+        ["Upcoming Events", "08", "Next 30 days"],
+        ["Pending Tasks", "16", "4 due today"],
+        ["Revenue", "$48,250", "+8.4% this month"]
+      ]
+    },
+    "Bookings": {
+      "title": "Bookings Calendar",
+      "subtitle": "Manage availability, bookings, and financial status.",
+      "stats": [
+        ["Confirmed", "12", "Events booked"],
+        ["Pending", "05", "Awaiting response"],
+        ["Paid", "$32,400", "Collected revenue"],
+        ["Outstanding", "$15,850", "Open balance"]
+      ]
+    },
+    "Staff": {
+      "title": "Staff Management",
+      "subtitle": "Coordinate your team and event assignments.",
+      "stats": [
+        ["Team Members", "18", "Active staff"],
+        ["Assigned", "14", "Across events"],
+        ["Available", "04", "Ready to assign"],
+        ["On leave", "02", "This month"]
+      ]
+    },
+    "Venues": {
+      "title": "Venues Directory",
+      "subtitle": "Manage your preferred venues and availability.",
+      "stats": [
+        ["Venues", "28", "In your directory"],
+        ["Available", "21", "For new bookings"],
+        ["Preferred", "09", "Top partners"],
+        ["New this month", "03", "Recently added"]
+      ]
+    },
+    "Vendors": {
+      "title": "Vendors Directory",
+      "subtitle": "Keep caterers, florists, and service providers connected.",
+      "stats": [
+        ["Vendors", "46", "Active partners"],
+        ["Catering", "12", "Service providers"],
+        ["Decor & Floral", "18", "Service providers"],
+        ["Pending review", "04", "Need attention"]
+      ]
+    },
+    "Settings": {
+      "title": "Profile & Settings",
+      "subtitle": "Manage your profile and workspace preferences.",
+      "stats": [
+        ["Workspace", "Allure Events", "Coordinator account"],
+        ["Timezone", "GMT +03:00", "Beirut"],
+        ["Notifications", "On", "Email and in-app"],
+        ["Security", "Secure", "Last checked today"]
+      ]
+    },
+    "Clients": {
+      "title": "Clients",
+      "subtitle": "Keep track of your client relationships.",
+      "stats": [
+        ["Active clients", "38", "Across all events"],
+        ["New inquiries", "07", "This month"],
+        ["Returning", "18", "Loyal clients"],
+        ["Follow-ups", "05", "Due this week"]
+      ]
+    }
+  },
+  "directoryRows": {
+    "Staff": [
+      ["Maya Haddad", "Event Manager", "Sarah & Ahmad's Wedding", "Available"],
+      ["Karim Nassar", "Lead Coordinator", "TechCorp Annual Gala", "Assigned"],
+      ["Lara Saad", "Florist Liaison", "Lina & Omar's Wedding", "Assigned"],
+      ["Sami Khoury", "Operations", "—", "Available"]
+    ],
+    "Venues": [
+      ["Grand Palace Hall", "Wedding venue", "Beirut", "Available"],
+      ["The Royal Venue", "Engagement venue", "Jounieh", "Booked"],
+      ["Skyline Hotel", "Corporate & gala", "Beirut", "Available"],
+      ["Garden Terrace", "Outdoor venue", "Byblos", "Available"]
+    ],
+    "Vendors": [
+      ["Bloom & Co.", "Decor & Floral", "hello@bloom.co", "Active"],
+      ["Table Stories", "Catering", "events@tablestories.com", "Active"],
+      [
+        "Soundline Production",
+        "Audio & Lighting",
+        "book@soundline.com",
+        "Active"
+      ],
+      ["Paper & Pine", "Stationery", "studio@paperpine.com", "Review"]
+    ],
+    "Clients": [
+      [
+        "Sarah Haddad",
+        "Sarah & Ahmad's Wedding",
+        "sarah@example.com",
+        "Confirmed"
+      ],
+      ["Nour Tabet", "Nour's Engagement", "nour@example.com", "Confirmed"],
+      ["TechCorp", "Annual Gala", "events@techcorp.com", "Planning"],
+      ["Lina Haddad", "Lina & Omar's Wedding", "lina@example.com", "Inquiry"]
+    ]
+  }
+}
