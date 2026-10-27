@@ -148,73 +148,31 @@
   "modules": {
     "Dashboard": {
       "title": "Dashboard",
-      "subtitle": "A clear view of your events operation.",
-      "stats": [
-        ["Total Events", "24", "+12% this month"],
-        ["Upcoming Events", "08", "Next 30 days"],
-        ["Pending Tasks", "16", "4 due today"],
-        ["Revenue", "$48,250", "+8.4% this month"]
-      ]
+      "subtitle": "A clear view of your events operation."
     },
     "Bookings": {
       "title": "Bookings Calendar",
-      "subtitle": "Manage availability, bookings, and financial status.",
-      "stats": [
-        ["Confirmed", "12", "Events booked"],
-        ["Pending", "05", "Awaiting response"],
-        ["Paid", "$32,400", "Collected revenue"],
-        ["Outstanding", "$15,850", "Open balance"]
-      ]
+      "subtitle": "Manage availability, bookings, and financial status."
     },
     "Staff": {
       "title": "Staff Management",
-      "subtitle": "Coordinate your team and event assignments.",
-      "stats": [
-        ["Team Members", "18", "Active staff"],
-        ["Assigned", "14", "Across events"],
-        ["Available", "04", "Ready to assign"],
-        ["On leave", "02", "This month"]
-      ]
+      "subtitle": "Coordinate your team and event assignments."
     },
     "Venues": {
       "title": "Venues Directory",
-      "subtitle": "Manage your preferred venues and availability.",
-      "stats": [
-        ["Venues", "28", "In your directory"],
-        ["Available", "21", "For new bookings"],
-        ["Preferred", "09", "Top partners"],
-        ["New this month", "03", "Recently added"]
-      ]
+      "subtitle": "Manage your preferred venues and availability."
     },
     "Vendors": {
       "title": "Vendors Directory",
-      "subtitle": "Keep caterers, florists, and service providers connected.",
-      "stats": [
-        ["Vendors", "46", "Active partners"],
-        ["Catering", "12", "Service providers"],
-        ["Decor & Floral", "18", "Service providers"],
-        ["Pending review", "04", "Need attention"]
-      ]
+      "subtitle": "Keep caterers, florists, and service providers connected."
     },
     "Settings": {
       "title": "Profile & Settings",
-      "subtitle": "Manage your profile and workspace preferences.",
-      "stats": [
-        ["Workspace", "Allure Events", "Coordinator account"],
-        ["Timezone", "GMT +03:00", "Beirut"],
-        ["Notifications", "On", "Email and in-app"],
-        ["Security", "Secure", "Last checked today"]
-      ]
+      "subtitle": "Manage your profile and workspace preferences."
     },
     "Clients": {
       "title": "Clients",
-      "subtitle": "Keep track of your client relationships.",
-      "stats": [
-        ["Active clients", "38", "Across all events"],
-        ["New inquiries", "07", "This month"],
-        ["Returning", "18", "Loyal clients"],
-        ["Follow-ups", "05", "Due this week"]
-      ]
+      "subtitle": "Keep track of your client relationships."
     }
   },
   "directoryRows": {

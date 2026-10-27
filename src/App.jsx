@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import html2pdf from 'html2pdf.js'
 import mockData from './data/mockData.json'
-import { EventArt, FinanceBadge, Modal } from './components/ui'
+import { EmptyState, ErrorState, EventArt, FinanceBadge, LoadingState, Modal } from './components/ui'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import DirectoryPage from './pages/DirectoryPage'
@@ -38,7 +38,8 @@ const translations = {
     security: 'الأمان', language: 'لغة الواجهة', arabic: 'العربية', english: 'English',
     export: 'تصدير JSON', import: 'استيراد JSON', reset: 'إعادة بيانات العرض',
     save: 'حفظ التغييرات', saved: 'تم حفظ التغييرات بنجاح.', show: 'إظهار', hide: 'إخفاء',
-    invalidEmail: 'يرجى إدخال بريد إلكتروني صحيح.', required: 'يرجى إدخال البريد الإلكتروني وكلمة المرور.'
+    invalidEmail: 'يرجى إدخال بريد إلكتروني صحيح.', required: 'يرجى إدخال البريد الإلكتروني وكلمة المرور.',
+    confirmDeleteEvent: 'هل أنت متأكد من حذف الإضبارة "{title}"؟ لا يمكن التراجع عن هذا الإجراء.'
   },
   en: {
     dashboard: 'Dashboard', events: 'Events', bookings: 'Bookings', clients: 'Clients',
@@ -53,7 +54,8 @@ const translations = {
     security: 'Security', language: 'Interface language', arabic: 'العربية', english: 'English',
     export: 'Export JSON', import: 'Import JSON', reset: 'Reset demo data',
     save: 'Save changes', saved: 'Changes saved successfully.', show: 'Show', hide: 'Hide',
-    invalidEmail: 'Please enter a valid email address.', required: 'Please enter your email and password.'
+    invalidEmail: 'Please enter a valid email address.', required: 'Please enter your email and password.',
+    confirmDeleteEvent: 'Are you sure you want to delete "{title}"? This action cannot be undone.'
   }
 }
 
@@ -86,6 +88,11 @@ function eventDateKey(value) {
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
   return `${date.getFullYear()}-${month}-${day}`
+}
+
+function parseEventDate(value) {
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? null : date
 }
 
 function formatMonth(date) {
@@ -171,13 +178,14 @@ function EventsPage({ events, onCreate, onSelect }) {
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
   const visible = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize)
   const updateFilter = (setter) => (event) => { setter(event.target.value); setCurrentPage(1) }
-  return <section className="content"><div className="page-heading"><div><span className="heading-icon">▣</span><div><h1>Events & Dossiers Archive</h1><p>ابحث وعدّل واطبع كامل الإضبارات المسجلة.</p></div></div><div className="hero-message">Create<br /><em>Unforgettable<br />Moments</em></div></div><div className="toolbar"><div className="search-events"><span>⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setCurrentPage(1) }} placeholder="Search dossiers, clients, venues..." /></div><select value={type} onChange={updateFilter(setType)}>{eventTypes.map((item) => <option key={item}>{item}</option>)}</select><select value={payment} onChange={updateFilter(setPayment)}><option>All Payments</option><option value="PAID">Paid</option><option value="PARTIAL">Partial</option><option value="UNPAID">Unpaid</option></select><button className="create-button" onClick={onCreate}>＋ Create Dossier</button></div><div className="card archive-card"><div className="archive-header"><span>Event / Dossier</span><span>Date</span><span>Template</span><span>Total</span><span>Payment status</span><span>Actions</span></div>{visible.map((event) => <div className="archive-row" key={event.id}><div className="event-name"><EventArt type={event.art} /><div><strong>{event.title}</strong><small>{event.client || 'Client not specified'} · {event.venue}</small></div></div><span>{event.date}</span><span>{event.template || 'Wedding'}</span><span>${(event.total || 0).toLocaleString()}</span><FinanceBadge status={event.paymentStatus} /><button className="row-action" onClick={() => onSelect(event)}>⋮</button></div>)}{!visible.length && <div className="empty-state">لا توجد إضبارات مطابقة للبحث.</div>}<div className="table-footer"><span>Showing {visible.length} of {filtered.length} dossiers</span><div className="pagination"><button disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}>‹</button>{Array.from({ length: totalPages }, (_, index) => <button className={currentPage === index + 1 ? 'current' : ''} key={index} onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>)}<button disabled={currentPage === totalPages} onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}>›</button></div></div></div></section>
+  return <section className="content module-content"><div className="module-heading"><div><span className="eyebrow">EVENTS</span><h1>Events &amp; Dossiers Archive</h1><p>ابحث وعدّل واطبع كامل الإضبارات المسجلة.</p></div><button className="create-button" onClick={onCreate}>＋ Create Dossier</button></div><div className="toolbar"><div className="search-events"><span>⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setCurrentPage(1) }} placeholder="Search dossiers, clients, venues..." /></div><select value={type} onChange={updateFilter(setType)}>{eventTypes.map((item) => <option key={item}>{item}</option>)}</select><select value={payment} onChange={updateFilter(setPayment)}><option>All Payments</option><option value="PAID">Paid</option><option value="PARTIAL">Partial</option><option value="UNPAID">Unpaid</option></select></div><div className="card archive-card"><div className="archive-header"><span>Event / Dossier</span><span>Date</span><span>Template</span><span>Total</span><span>Payment status</span><span>Actions</span></div>{visible.map((event) => <div className="archive-row" key={event.id}><div className="event-name"><EventArt type={event.art} /><div><strong>{event.title}</strong><small>{event.client || 'Client not specified'} · {event.venue}</small></div></div><span>{event.date}</span><span>{event.template || 'Wedding'}</span><span>${(event.total || 0).toLocaleString()}</span><FinanceBadge status={event.paymentStatus} /><button className="row-action" onClick={() => onSelect(event)}>⋮</button></div>)}{!visible.length && <EmptyState message={events.length ? 'لا توجد إضبارات مطابقة للبحث.' : 'أنشئ أول إضبارة للبدء.'} />}<div className="table-footer"><span>Showing {visible.length} of {filtered.length} dossiers</span><div className="pagination"><button disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}>‹</button>{Array.from({ length: totalPages }, (_, index) => <button className={currentPage === index + 1 ? 'current' : ''} key={index} onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>)}<button disabled={currentPage === totalPages} onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}>›</button></div></div></div></section>
 }
 
 function BookingsPage({ events, onCreate, onSelect }) {
   const [view, setView] = useState('month')
-  const [selectedDate, setSelectedDate] = useState(new Date(2025, 9, 18))
-  const [month, setMonth] = useState(new Date(2025, 9, 1))
+  const initialDate = new Date()
+  const [selectedDate, setSelectedDate] = useState(initialDate)
+  const [month, setMonth] = useState(new Date(initialDate.getFullYear(), initialDate.getMonth(), 1))
   const cells = view === 'month' ? calendarCells(month) : Array.from({ length: view === 'week' ? 7 : 1 }, (_, index) => {
     const date = getWeekStart(selectedDate)
     date.setDate(date.getDate() + index)
@@ -199,12 +207,20 @@ function BookingsPage({ events, onCreate, onSelect }) {
     setSelectedDate(today)
   }
   const cellEvents = (date) => eventsByDate[eventDateKey(date)] || []
-  const monthEvents = events.length
-  const confirmed = events.filter((event) => event.status === 'Confirmed').length
-  const pending = events.filter((event) => event.status === 'Planning' || event.status === 'Inquiry').length
-  const cancelled = events.filter((event) => event.status === 'Cancelled').length
-  const upcoming = events.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 3)
-  return <section className="content module-content booking-page"><div className="booking-hero"><div><h1>Bookings &amp; Calendar</h1><p>View bookings and manage your calendar.</p></div><div className="booking-hero-actions"><strong>Manage<br /><em>Your Bookings<br />&amp; Calendar</em></strong><button className="create-button" onClick={onCreate}>＋ New Booking</button></div></div><div className="booking-stats"><div className="booking-stat"><span>▣</span><small>Total Bookings</small><b>{monthEvents}</b><em>This month</em></div><div className="booking-stat"><span>☑</span><small>Confirmed</small><b>{confirmed}</b><em>This month</em></div><div className="booking-stat"><span>⌛</span><small>Pending</small><b>{pending}</b><em>This month</em></div><div className="booking-stat"><span>⊗</span><small>Cancelled</small><b>{cancelled}</b><em>This month</em></div></div><div className="booking-layout"><div><div className="card full-calendar calendar-card"><div className="calendar-card-heading"><h2>▣ &nbsp;Calendar</h2><div className="booking-toolbar"><button className={view === 'month' ? 'selected' : ''} onClick={() => setView('month')}>Month</button><button className={view === 'week' ? 'selected' : ''} onClick={() => setView('week')}>Week</button><button className={view === 'day' ? 'selected' : ''} onClick={() => setView('day')}>Day</button><button type="button" onClick={goToday}>Today</button></div><span className="calendar-month"><button onClick={() => moveMonth(-1)}>‹</button>{formatMonth(month)}<button onClick={() => moveMonth(1)}>›</button></span></div><div className={`calendar-view-${view}`}><div className="full-calendar-head">{(view === 'day' ? [selectedDate.toLocaleDateString('en-US', { weekday: 'short' })] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']).map((day) => <b key={day}>{day}</b>)}</div><div className="full-calendar-grid">{cells.map((date) => { const dateEvents = cellEvents(date); const key = eventDateKey(date); return <button className={`calendar-cell ${date.getMonth() !== month.getMonth() && view === 'month' ? 'outside-month' : ''} ${key === eventDateKey(selectedDate) ? 'selected-day' : ''}`} key={key} onClick={() => setSelectedDate(date)}><span className="calendar-day-number">{date.getDate()}</span>{dateEvents.map((event) => <small className={`calendar-event event-${event.paymentStatus?.toLowerCase() || 'partial'}`} key={event.id} onClick={(clickEvent) => { clickEvent.stopPropagation(); onSelect(event) }}>{event.title}</small>)}</button> })}</div></div></div><div className="card upcoming-bookings"><div className="section-heading"><h2>▣ &nbsp;Upcoming Bookings</h2><button onClick={() => setView('month')}>View all →</button></div><div className="upcoming-grid">{upcoming.map((event) => <button className="upcoming-row" key={event.id} onClick={() => onSelect(event)}><EventArt type={event.art} /><span><strong>{event.title}</strong><small>{event.date} · {event.time}</small><FinanceBadge status={event.paymentStatus} /></span></button>)}</div></div></div><div className="card booking-list"><div className="section-heading"><h2>♧ &nbsp;Bookings List</h2><button>View all →</button></div>{events.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).map((event) => <button className="booking-item" key={event.id} onClick={() => onSelect(event)}><EventArt type={event.art} /><div><strong>{event.title}</strong><small>◷ {event.date} · {event.time}</small><small>⌖ {event.venue}</small></div><FinanceBadge status={event.status === 'Planning' ? 'PARTIAL' : event.paymentStatus} /><span className="booking-dots">⋮</span></button>)}</div></div></section>
+  const monthEvents = events.filter((event) => {
+    const date = parseEventDate(event.date)
+    return date && date.getFullYear() === month.getFullYear() && date.getMonth() === month.getMonth()
+  })
+  const confirmed = monthEvents.filter((event) => event.status === 'Confirmed').length
+  const pending = monthEvents.filter((event) => event.status === 'Planning' || event.status === 'Inquiry').length
+  const cancelled = monthEvents.filter((event) => event.status === 'Cancelled').length
+  const upcoming = events
+    .map((event) => ({ event, date: parseEventDate(event.date) }))
+    .filter(({ date }) => date && date >= new Date())
+    .sort((a, b) => a.date - b.date)
+    .slice(0, 3)
+    .map(({ event }) => event)
+  return <section className="content module-content booking-page"><div className="booking-hero"><div><h1>Bookings &amp; Calendar</h1><p>View bookings and manage your calendar.</p></div><div className="booking-hero-actions"><strong>Manage<br /><em>Your Bookings<br />&amp; Calendar</em></strong><button className="create-button" onClick={onCreate}>＋ New Booking</button></div></div><div className="booking-stats"><div className="booking-stat"><span>▣</span><small>Total Bookings</small><b>{monthEvents.length}</b><em>{formatMonth(month)}</em></div><div className="booking-stat"><span>☑</span><small>Confirmed</small><b>{confirmed}</b><em>{formatMonth(month)}</em></div><div className="booking-stat"><span>⌛</span><small>Pending</small><b>{pending}</b><em>{formatMonth(month)}</em></div><div className="booking-stat"><span>⊗</span><small>Cancelled</small><b>{cancelled}</b><em>{formatMonth(month)}</em></div></div><div className="booking-layout"><div><div className="card full-calendar calendar-card"><div className="calendar-card-heading"><h2>▣ &nbsp;Calendar</h2><div className="booking-toolbar"><button className={view === 'month' ? 'selected' : ''} onClick={() => setView('month')}>Month</button><button className={view === 'week' ? 'selected' : ''} onClick={() => setView('week')}>Week</button><button className={view === 'day' ? 'selected' : ''} onClick={() => setView('day')}>Day</button><button type="button" onClick={goToday}>Today</button></div><span className="calendar-month"><button onClick={() => moveMonth(-1)}>‹</button>{formatMonth(month)}<button onClick={() => moveMonth(1)}>›</button></span></div><div className={`calendar-view-${view}`}><div className="full-calendar-head">{(view === 'day' ? [selectedDate.toLocaleDateString('en-US', { weekday: 'short' })] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']).map((day) => <b key={day}>{day}</b>)}</div><div className="full-calendar-grid">{cells.map((date) => { const dateEvents = cellEvents(date); const key = eventDateKey(date); return <button className={`calendar-cell ${date.getMonth() !== month.getMonth() && view === 'month' ? 'outside-month' : ''} ${key === eventDateKey(selectedDate) ? 'selected-day' : ''}`} key={key} onClick={() => setSelectedDate(date)}><span className="calendar-day-number">{date.getDate()}</span>{dateEvents.map((event) => <small className={`calendar-event event-${event.paymentStatus?.toLowerCase() || 'partial'}`} key={event.id} onClick={(clickEvent) => { clickEvent.stopPropagation(); onSelect(event) }}>{event.title}</small>)}</button> })}</div></div></div><div className="card upcoming-bookings"><div className="section-heading"><h2>▣ &nbsp;Upcoming Bookings</h2><button onClick={() => setView('month')}>View all →</button></div>    <div className="upcoming-grid">{upcoming.length ? upcoming.map((event) => <button className="upcoming-row" key={event.id} onClick={() => onSelect(event)}><EventArt type={event.art} /><span><strong>{event.title}</strong><small>{event.date} · {event.time}</small><FinanceBadge status={event.paymentStatus} /></span></button>) : <EmptyState message="لا توجد حجوزات قادمة." />}</div></div></div><div className="card booking-list"><div className="section-heading"><h2>♧ &nbsp;Bookings List</h2><button>View all →</button></div>{events.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).map((event) => <button className="booking-item" key={event.id} onClick={() => onSelect(event)}><EventArt type={event.art} /><div><strong>{event.title}</strong><small>◷ {event.date} · {event.time}</small><small>⌖ {event.venue}</small></div><FinanceBadge status={event.status === 'Planning' ? 'PARTIAL' : event.paymentStatus} /><span className="booking-dots">⋮</span></button>)}</div></div></section>
 }
 
 function App() {
@@ -219,7 +235,14 @@ function App() {
   const [directoryModal, setDirectoryModal] = useState(null)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [showNotifications, setShowNotifications] = useState(false)
+  const [globalQuery, setGlobalQuery] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [dataError, setDataError] = useState('')
   const venues = directories.Venues || []
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsLoading(false), 0)
+    return () => window.clearTimeout(timer)
+  }, [])
   useEffect(() => { window.localStorage.setItem(storageKeys.events, JSON.stringify(events)) }, [events])
   useEffect(() => { window.localStorage.setItem(storageKeys.directories, JSON.stringify(directories)) }, [directories])
   const openCreate = () => { setEditingEvent(null); setShowCreate(true) }
@@ -231,6 +254,10 @@ function App() {
     setActiveNav('Events')
   }
   const removeEvent = (id) => {
+    const event = events.find((item) => item.id === id)
+    if (!event) return
+    const confirmation = copy.confirmDeleteEvent.replace('{title}', event.title)
+    if (!window.confirm(confirmation)) return
     setEvents((current) => current.filter((event) => event.id !== id))
     setSelectedEvent(null)
   }
@@ -267,9 +294,10 @@ function App() {
         setEvents(data.events)
         setDirectories(data.directories)
       } catch {
-        window.alert('Invalid Allure Events JSON file.')
+        setDataError('The selected JSON file is invalid or has an unsupported structure.')
       }
     }
+    reader.onerror = () => setDataError('The selected file could not be read.')
     reader.readAsText(file)
   }, [])
   const resetData = useCallback(() => {
@@ -279,8 +307,32 @@ function App() {
     window.localStorage.removeItem(storageKeys.events)
     window.localStorage.removeItem(storageKeys.directories)
   }, [])
+  const globalResults = useMemo(() => {
+    const query = globalQuery.trim().toLowerCase()
+    if (!query) return []
+    const matches = []
+    events.forEach((event) => {
+      const searchable = `${event.title} ${event.client || ''} ${event.venue || ''} ${event.phone || ''}`.toLowerCase()
+      if (searchable.includes(query)) matches.push({ type: 'Event', title: event.title, detail: `${event.client || 'Client not specified'} · ${event.venue || 'Venue not specified'}`, event })
+    })
+    Object.entries(directories).forEach(([pageName, rows]) => {
+      rows.forEach((row) => {
+        if (row.join(' ').toLowerCase().includes(query)) matches.push({ type: pageName, title: row[0], detail: `${row[1] || ''} · ${row[2] || ''}`, pageName, row })
+      })
+    })
+    return matches.slice(0, 8)
+  }, [directories, events, globalQuery])
+  const selectGlobalResult = (result) => {
+    setGlobalQuery('')
+    if (result.event) {
+      setActiveNav('Events')
+      setSelectedEvent(result.event)
+      return
+    }
+    setActiveNav(result.pageName)
+  }
   const page = useMemo(() => {
-    if (activeNav === 'Dashboard') return <DashboardPage events={events} onCreate={openCreate} />
+    if (activeNav === 'Dashboard') return <DashboardPage events={events} directories={directories} onCreate={openCreate} onViewArchive={() => setActiveNav('Events')} />
     if (activeNav === 'Events') return <EventsPage events={events} onCreate={openCreate} onSelect={setSelectedEvent} />
     if (activeNav === 'Bookings') return <BookingsPage events={events} onCreate={openCreate} onSelect={setSelectedEvent} />
     if (activeNav === 'Settings') return <SettingsPage onExport={exportData} onImport={importData} onReset={resetData} language={language} onLanguageChange={setLanguage} />
@@ -288,7 +340,8 @@ function App() {
   }, [activeNav, directories, events, exportData, importData, resetData, language])
   useEffect(() => { window.localStorage.setItem(languageKey, JSON.stringify(language)) }, [language])
   if (!authenticated) return <LoginPage onLogin={login} language={language} />
-  return <div className={`app-shell ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}><aside className="sidebar"><div className="brand"><img src={logo} alt="Allure Events" /><div><strong>ALLURE EVENTS</strong><small>MAKE IT UNFORGETTABLE</small></div></div><nav className="main-nav" aria-label="Main navigation">{navigation.map(([icon, label]) => <button className={activeNav === label ? 'nav-item active' : 'nav-item'} key={label} onClick={() => setActiveNav(label)}><span className="nav-icon">{icon}</span><span>{copy[label.toLowerCase()]}</span></button>)}</nav><div className="sidebar-quote"><div className="leaf-decoration">⌁</div><em>{language === 'ar' ? <>لحظات جميلة<br />مخططة بعناية.</> : <>Beautiful moments<br />well planned.</>}</em></div></aside><main className="main-content"><header className="topbar"><div className="search-global"><span>⌕</span><input placeholder={copy.search} /></div><div className="profile-area"><button className="icon-button notification-button" onClick={() => setShowNotifications(!showNotifications)}>♧<i /></button>{showNotifications && <div className="notification-popover"><strong>{copy.notifications}</strong><p>{language === 'ar' ? 'تم استلام طلب جديد لحفل سارة وأحمد.' : "New inquiry received for Sarah & Ahmad's Wedding."}</p></div>}<button className="avatar profile-avatar" onClick={logout}>IT</button><div className="profile-copy"><strong>Ibraheem Touma</strong><small>{copy.officeAdmin}</small></div><span className="chevron">⌄</span></div></header><div key={`${activeNav}-${language}`} className="page-transition">{page}</div></main>{showCreate && <CreateDossier venues={venues} existingEvents={events} initialEvent={editingEvent} onClose={() => { setShowCreate(false); setEditingEvent(null) }} onSave={saveEvent} />}{selectedEvent && <EventDetail event={selectedEvent} onClose={() => setSelectedEvent(null)} onEdit={(event) => { setSelectedEvent(null); setEditingEvent(event); setShowCreate(true) }} onDelete={removeEvent} />}{directoryModal && <DirectoryForm page={directoryModal.page} initialRow={directoryModal.row} onClose={() => setDirectoryModal(null)} onSave={(row) => saveDirectory(directoryModal.page, row, directoryModal.row)} />}</div>
+  if (isLoading) return <div className="app-state-screen"><LoadingState message="Loading workspace..." /></div>
+  return <div className={`app-shell ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}><aside className="sidebar"><div className="brand"><img src={logo} alt="Allure Events" /><div><strong>ALLURE EVENTS</strong><small>MAKE IT UNFORGETTABLE</small></div></div><nav className="main-nav" aria-label="Main navigation">{navigation.map(([icon, label]) => <button className={activeNav === label ? 'nav-item active' : 'nav-item'} key={label} onClick={() => setActiveNav(label)}><span className="nav-icon">{icon}</span><span>{copy[label.toLowerCase()]}</span></button>)}</nav><div className="sidebar-quote"><div className="leaf-decoration">⌁</div><em>{language === 'ar' ? <>لحظات جميلة<br />مخططة بعناية.</> : <>Beautiful moments<br />well planned.</>}</em></div></aside><main className="main-content"><header className="topbar"><div className="global-search-wrap"><div className="search-global"><span>⌕</span><input value={globalQuery} onChange={(event) => setGlobalQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Escape') setGlobalQuery('') }} placeholder={copy.search} aria-label={copy.search} /></div>{globalQuery.trim() && <div className="global-search-results">{globalResults.length ? globalResults.map((result) => <button className="global-search-result" key={`${result.type}-${result.title}`} onClick={() => selectGlobalResult(result)}><span className="global-result-type">{result.type}</span><strong>{result.title}</strong><small>{result.detail}</small></button>) : <div className="global-search-empty">No matching records found.</div>}</div>}</div><div className="profile-area"><button className="icon-button notification-button" onClick={() => setShowNotifications(!showNotifications)}>♧<i /></button>{showNotifications && <div className="notification-popover"><strong>{copy.notifications}</strong><p>{language === 'ar' ? 'تم استلام طلب جديد لحفل سارة وأحمد.' : "New inquiry received for Sarah & Ahmad's Wedding."}</p></div>}<button className="avatar profile-avatar" onClick={logout}>IT</button><div className="profile-copy"><strong>Ibraheem Touma</strong><small>{copy.officeAdmin}</small></div><span className="chevron">⌄</span></div></header>{dataError && <ErrorState message={dataError} onDismiss={() => setDataError('')} />}<div key={`${activeNav}-${language}`} className="page-transition">{page}</div></main>{showCreate && <CreateDossier venues={venues} existingEvents={events} initialEvent={editingEvent} onClose={() => { setShowCreate(false); setEditingEvent(null) }} onSave={saveEvent} />}{selectedEvent && <EventDetail event={selectedEvent} onClose={() => setSelectedEvent(null)} onEdit={(event) => { setSelectedEvent(null); setEditingEvent(event); setShowCreate(true) }} onDelete={removeEvent} />}{directoryModal && <DirectoryForm page={directoryModal.page} initialRow={directoryModal.row} onClose={() => setDirectoryModal(null)} onSave={(row) => saveDirectory(directoryModal.page, row, directoryModal.row)} />}</div>
 }
 
 export default App
