@@ -10,12 +10,12 @@ export function LoadingState({ message = 'Loading...' }) {
   return <div className="state-message state-loading" role="status"><span className="loading-spinner" aria-hidden="true" />{message}</div>
 }
 
-export function ErrorState({ message, onDismiss }) {
-  return <div className="state-message state-error" role="alert"><strong>Something went wrong</strong><span>{message}</span>{onDismiss && <button type="button" onClick={onDismiss}>Dismiss</button>}</div>
+export function ErrorState({ message, onDismiss, title = 'Something went wrong', dismissLabel = 'Dismiss' }) {
+  return <div className="state-message state-error" role="alert"><strong>{title}</strong><span>{message}</span>{onDismiss && <button type="button" onClick={onDismiss}>{dismissLabel}</button>}</div>
 }
 
-export function EmptyState({ message = 'No records found.' }) {
-  return <div className="state-message state-empty" role="status"><strong>No data yet</strong><span>{message}</span></div>
+export function EmptyState({ message = 'No records found.', title = 'No data yet' }) {
+  return <div className="state-message state-empty" role="status"><strong>{title}</strong><span>{message}</span></div>
 }
 
 const paymentTypes = { PAID: ['Paid', 'sage'], PARTIAL: ['Partial payment', 'gold'], UNPAID: ['Unpaid', 'red'] }

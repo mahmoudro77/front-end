@@ -120,4 +120,28 @@ allure-language
 
 ## الحالة الحالية
 
-المشروع Frontend Prototype متكامل نسبياً ومناسب للعرض والتجربة على بيانات محلية. قبل النشر الفعلي يجب إضافة Backend، مصادقة حقيقية، صلاحيات، وتخزين دائم للبيانات.
+المشروع Frontend Prototype متكامل نسبياً ومناسب للعرض والتجربة. حالياً يتصل بطبقة Fake REST API محلية عبر `json-server`، وتُحفظ البيانات في [db.json](./db.json).
+
+### Fake API
+
+يتم تشغيل الخادم من ملف [db.json](./db.json)، ثم تتعامل الواجهة مع العمليات التالية عبر طبقة [src/services/fakeApi.js](./src/services/fakeApi.js):
+
+- `getEvents`, `saveEvent`, `deleteEvent`
+- `getDirectories`, `saveDirectory`, `deleteDirectory`
+- `replaceData` للاستيراد
+- `reset` لإعادة البيانات التجريبية
+
+لتشغيل الواجهة والخادم معاً:
+
+```bash
+npm run dev:all
+```
+
+أو في نافذتين منفصلتين:
+
+```bash
+npm run api
+npm run dev
+```
+
+الخادم يعمل على `http://localhost:3001`، ويمكن تغيير الرابط عبر `VITE_API_URL`. عند إضافة Django REST API لاحقاً، يمكن استبدال عناوين الموارد داخل [fakeApi.js](./src/services/fakeApi.js) مع إبقاء مكونات الواجهة كما هي.

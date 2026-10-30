@@ -1,0 +1,35 @@
+/* Booking workspace */
+.brand img { width: 35px; height: 35px; object-fit: cover; border-radius: 50%; }
+.booking-page { padding-top: 0; }
+.booking-hero { height: 110px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; border-radius: 0 0 7px 7px; overflow: hidden; background: linear-gradient(90deg, #f8f5f0 0%, #f8f5f0 32%, #d8b39d 70%, #4b1013 100%); }
+.booking-hero h1 { margin: 0 0 5px; color: #3b1715; font: 500 29px 'Playfair Display'; }
+.booking-hero p { margin: 0; color: #766964; font-size: 12px; }
+.booking-hero-actions { display: flex; align-items: center; gap: 20px; }
+.booking-hero > .booking-hero-actions > strong { color: #fff; font: 500 15px/1.25 'Playfair Display'; text-align: left; }
+.booking-hero > strong em { font-size: 16px; }
+.booking-hero-actions .create-button { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+.booking-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 14px 0; }
+.booking-stat { position: relative; min-height: 92px; padding: 12px 14px; border: 1px solid #ece6df; border-radius: 8px; background: #fff; box-shadow: var(--shadow); }
+.booking-stat span { display: block; color: var(--wine); font-size: 21px; line-height: 1; margin-bottom: 7px; }
+.booking-stat small, .booking-stat em { display: block; color: #514742; font-size: 11px; font-style: normal; }
+.booking-stat b { display: block; color: var(--wine); font-size: 22px; line-height: 1.15; margin-top: 3px; }
+.booking-stat em { color: #9a918b; font-size: 10px; }
+.booking-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(310px, .95fr); gap: 16px; }
+.calendar-card { overflow: hidden; }
+.calendar-card-heading { height: 46px; display: flex; align-items: center; gap: 18px; padding: 0 13px; border-bottom: 1px solid #eee8e2; }
+.calendar-card-heading h2 { margin: 0; color: #312522; font-size: 13px; }
+.calendar-card-heading .booking-toolbar { display: flex; gap: 4px; padding: 0; margin: 0 auto 0 0; border: 0; box-shadow: none; }
+.calendar-card-heading .booking-toolbar button { min-width: 44px; min-height: 25px; padding: 3px 8px; border: 0; color: #756b65; background: transparent; font-size: 9px; }
+.calendar-card-heading .booking-toolbar button.selected { color: #fff; background: var(--wine); box-shadow: none; }
+.calendar-card-heading .calendar-month { font-size: 11px; font-weight: 500; white-space: nowrap; }
+.calendar-card-heading .calendar-month button { width: 20px; height: 20px; margin: 0 2px; font-size: 16px; }
+.calendar-card .full-calendar-head { background: #fff; }
+.calendar-card .full-calendar-head b { padding: 9px 4px 7px; color: #675b55; font-size: 9px; text-transform: none; letter-spacing: 0; }
+.calendar-card .full-calendar-grid { grid-template-rows: repeat(6, minmax(68px, 1fr)); }
+.calendar-card .calendar-cell { min-height: 68px; padding: 7px 8px; }
+.calendar-card .calendar-cell > span { width: 20px; height: 20px; font-size: 9px; }
+.calendar-card .calendar-cell small { max-width: 100%; margin-top: 5px; padding: 4px 5px; border-left: 0; border-radius: 7px; font-size: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upcoming-bookings { margin-top: 14px; padding: 0 10px 10px; }
+.section-heading { min-height: 42px; }
+.section-heading h2 { font-size: 12px; }
+.section-heading button { font-size: 9px; }

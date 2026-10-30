@@ -1,16 +1,88 @@
 import { useState } from 'react'
+import logo from '../assets/logo.jpg'
 
-export default function SettingsPage({ onExport, onImport, onReset, language, onLanguageChange }) {
+const defaultEmail = 'admin@allureevents.com'
+
+export default function SettingsPage({ language, onLanguageChange, copy }) {
+  const [email, setEmail] = useState(defaultEmail)
+  const [password, setPassword] = useState('')
   const [saved, setSaved] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [activeTab, setActiveTab] = useState('profile')
-  const [avatarUrl, setAvatarUrl] = useState('')
   const ar = language === 'ar'
-  const text = ar ? { title: 'الملف الشخصي والإعدادات', description: 'إدارة الحساب والهوية المطبوعة وإعدادات الأمان.', profile: 'معلومات الملف الشخصي', printed: 'الهوية المطبوعة', notifications: 'الإشعارات', security: 'الأمان', language: 'لغة الواجهة', export: 'تصدير JSON', import: 'استيراد JSON', reset: 'إعادة بيانات العرض', save: 'حفظ التغييرات', saved: 'تم حفظ التغييرات بنجاح.', show: 'إظهار', hide: 'إخفاء' } : { title: 'Profile & Settings', description: 'Manage your account, printed identity, and security.', profile: 'Profile information', printed: 'Printed identity', notifications: 'Notifications', security: 'Security', language: 'Interface language', export: 'Export JSON', import: 'Import JSON', reset: 'Reset demo data', save: 'Save changes', saved: 'Changes saved successfully.', show: 'Show', hide: 'Hide' }
-  const tab = (key, label) => <button type="button" className={activeTab === key ? 'selected' : ''} onClick={() => setActiveTab(key)} aria-selected={activeTab === key}>{label}</button>
-  const onAvatarChange = (event) => {
-    const file = event.target.files?.[0]
-    if (file) setAvatarUrl(URL.createObjectURL(file))
+  const text = copy || (ar ? {
+    title: 'الإعدادات',
+    description: 'إدارة بيانات دخول حساب المدير وإعدادات اللغة.',
+    account: 'حساب المدير',
+    adminName: 'admin',
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور الجديدة',
+    company: 'اسم الشركة',
+    companyName: 'Allure Events',
+    language: 'لغة الواجهة',
+    arabic: 'العربية',
+    english: 'English',
+    save: 'حفظ التغييرات',
+    saved: 'تم حفظ التغييرات بنجاح.',
+    show: 'إظهار',
+    hide: 'إخفاء',
+  } : {
+    title: 'Settings',
+    description: 'Manage the administrator login details and interface language.',
+    account: 'Administrator account',
+    adminName: 'admin',
+    email: 'Email address',
+    password: 'New password',
+    company: 'Company name',
+    companyName: 'Allure Events',
+    language: 'Interface language',
+    arabic: 'العربية',
+    english: 'English',
+    save: 'Save changes',
+    saved: 'Changes saved successfully.',
+    show: 'Show',
+    hide: 'Hide',
+  })
+  const [showPassword, setShowPassword] = useState(false)
+
+  const save = (event) => {
+    event.preventDefault()
+    setSaved(true)
+    setPassword('')
   }
-  return <section className="content module-content"><div className="module-heading"><div><span className="eyebrow">WORKSPACE</span><h1>{text.title}</h1><p>{text.description}</p></div></div><div className="settings-layout"><div className="settings-tabs card">{tab('profile', text.profile)}{tab('printed', text.printed)}{tab('notifications', text.notifications)}{tab('security', text.security)}<div className="language-setting"><span>{text.language}</span><div className="language-switch"><button type="button" className={ar ? 'selected' : ''} onClick={() => onLanguageChange('ar')}>العربية</button><button type="button" className={!ar ? 'selected' : ''} onClick={() => onLanguageChange('en')}>English</button></div></div><button type="button" onClick={onExport}>{text.export}</button><label className="import-json">{text.import}<input type="file" accept="application/json" onChange={onImport} /></label><button type="button" className="danger-button" onClick={onReset}>{text.reset}</button></div><div className="card settings-form"><h2>{activeTab === 'profile' ? text.profile : activeTab === 'printed' ? text.printed : activeTab === 'notifications' ? text.notifications : text.security}</h2><p>{activeTab === 'profile' ? text.description : (ar ? 'تم اختيار هذا القسم.' : 'This section is selected.')}</p><div className="settings-avatar"><div className="avatar large" style={avatarUrl ? { backgroundImage: `url(${avatarUrl})`, backgroundSize: 'cover' } : undefined}>{avatarUrl ? '' : 'IT'}</div><label className="secondary-button" htmlFor="avatar-upload">{ar ? 'تغيير الصورة' : 'Change photo'}<input id="avatar-upload" type="file" accept="image/*" onChange={onAvatarChange} /></label></div><div className="form-grid"><label>{ar ? 'الاسم الكامل' : 'Full name'}<input defaultValue="Ibraheem Touma" /></label><label>{ar ? 'البريد الإلكتروني' : 'Email address'}<input defaultValue="ibraheem@allureevents.com" /></label><label>{ar ? 'الدور الوظيفي' : 'Role'}<input defaultValue="Office Admin" /></label><label>{ar ? 'رقم الهاتف' : 'Phone number'}<input defaultValue="+961 70 123 456" /></label><label className="wide-field">{ar ? 'كلمة المرور الجديدة' : 'New password'}<div className="password-field"><input type={showPassword ? 'text' : 'password'} defaultValue="password" /><button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? text.hide : text.show}</button></div></label></div><div className="settings-actions"><span>{saved ? text.saved : ''}</span><button className="create-button" onClick={() => setSaved(true)}>{text.save}</button></div></div></div></section>
+
+  return <section className="content module-content settings-page">
+    <div className="module-heading">
+      <div>
+        <span className="eyebrow">{text.account}</span>
+        <h1>{text.title}</h1>
+        <p>{text.description}</p>
+      </div>
+    </div>
+    <div className="settings-layout">
+      <div className="card settings-identity">
+        <img src={logo} alt="Allure Events" />
+        <strong>{text.companyName}</strong>
+        <span>{text.adminName}</span>
+      </div>
+      <form className="card settings-form" onSubmit={save}>
+        <h2>{text.account}</h2>
+        <div className="form-grid">
+          <label>{text.adminName}<input value={text.adminName} readOnly /></label>
+          <label>{text.company}<input value={text.companyName} readOnly /></label>
+          <label>{text.email}<input type="email" value={email} onChange={(event) => { setEmail(event.target.value); setSaved(false) }} required /></label>
+          <label>{text.password}<div className="password-field"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => { setPassword(event.target.value); setSaved(false) }} placeholder="••••••••" minLength="6" /><button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? text.hide : text.show}</button></div></label>
+        </div>
+        <div className="language-setting">
+          <span>{text.language}</span>
+          <div className="language-switch">
+            <button type="button" className={ar ? 'selected' : ''} onClick={() => onLanguageChange('ar')}>{text.arabic}</button>
+            <button type="button" className={!ar ? 'selected' : ''} onClick={() => onLanguageChange('en')}>{text.english}</button>
+          </div>
+        </div>
+        <div className="settings-actions">
+          <span>{saved ? text.saved : ''}</span>
+          <button className="create-button">{text.save}</button>
+        </div>
+      </form>
+    </div>
+  </section>
 }
