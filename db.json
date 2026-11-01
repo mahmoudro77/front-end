@@ -335,9 +335,10 @@
       "contact": "",
       "email": "",
       "phone": "",
-      "status": "Available",
+      "status": "Assigned",
+      "eventId": "3",
       "createdAt": "2026-10-30T22:40:10.756Z",
-      "updatedAt": "2026-10-30T22:40:10.756Z"
+      "updatedAt": "2026-11-01T09:12:39.618Z"
     }
   ]
 }
