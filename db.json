@@ -3,7 +3,11 @@
     {
       "id": "1",
       "title": "Sarah & Ahmad's Wedding",
+<<<<<<< HEAD
       "date": "Oct 18, 2025",
+=======
+      "date": "Nov 18, 2026",
+>>>>>>> eeca1c3 (edit)
       "time": "6:00 PM",
       "venue": "Grand Palace Hall",
       "guests": 120,
@@ -21,7 +25,11 @@
     {
       "id": "2",
       "title": "Nour's Engagement",
+<<<<<<< HEAD
       "date": "Oct 25, 2025",
+=======
+      "date": "Nov 25, 2026",
+>>>>>>> eeca1c3 (edit)
       "time": "7:00 PM",
       "venue": "The Royal Venue",
       "guests": 75,
@@ -39,7 +47,11 @@
     {
       "id": "3",
       "title": "TechCorp Annual Gala",
+<<<<<<< HEAD
       "date": "Nov 08, 2025",
+=======
+      "date": "Dec 08, 2026",
+>>>>>>> eeca1c3 (edit)
       "time": "7:30 PM",
       "venue": "Skyline Hotel",
       "guests": 200,
@@ -57,7 +69,11 @@
     {
       "id": "4",
       "title": "Lina & Omar's Wedding",
+<<<<<<< HEAD
       "date": "Nov 22, 2025",
+=======
+      "date": "Dec 22, 2026",
+>>>>>>> eeca1c3 (edit)
       "time": "6:30 PM",
       "venue": "Garden Terrace",
       "guests": 150,
@@ -75,7 +91,11 @@
     {
       "id": "5",
       "title": "Rana's Birthday",
+<<<<<<< HEAD
       "date": "Dec 06, 2025",
+=======
+      "date": "Jan 06, 2027",
+>>>>>>> eeca1c3 (edit)
       "time": "8:00 PM",
       "venue": "Vista Lounge",
       "guests": 50,
@@ -93,7 +113,11 @@
     {
       "id": "6",
       "title": "Corporate Meeting",
+<<<<<<< HEAD
       "date": "Dec 15, 2025",
+=======
+      "date": "Jan 15, 2027",
+>>>>>>> eeca1c3 (edit)
       "time": "10:00 AM",
       "venue": "Business Center",
       "guests": 80,
@@ -111,7 +135,11 @@
     {
       "id": "7",
       "title": "Omar's Graduation",
+<<<<<<< HEAD
       "date": "Dec 20, 2025",
+=======
+      "date": "Jan 20, 2027",
+>>>>>>> eeca1c3 (edit)
       "time": "5:00 PM",
       "venue": "Royal Garden",
       "guests": 100,
@@ -129,7 +157,11 @@
     {
       "id": "8",
       "title": "Christmas Party",
+<<<<<<< HEAD
       "date": "Dec 28, 2025",
+=======
+      "date": "Jan 28, 2027",
+>>>>>>> eeca1c3 (edit)
       "time": "8:30 PM",
       "venue": "Skyline Hotel",
       "guests": 120,

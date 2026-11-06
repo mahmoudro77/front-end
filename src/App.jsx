@@ -8,11 +8,19 @@ import DirectoryForm from './components/DirectoryForm'
 import { BookingsPage, CreateDossier, EventDetail, EventsPage } from './components/events'
 import fakeApi from './services/fakeApi'
 import logo from './assets/logo.jpg'
+<<<<<<< HEAD
+=======
+import sidebarArt from './assets/pic.jpg'
+>>>>>>> eeca1c3 (edit)
 import './App.css'
 import './styles/layout.css'
 import './styles/events.css'
 import './styles/bookings.css'
 import './styles/dossier.css'
+<<<<<<< HEAD
+=======
+import './styles/dashboard.css'
+>>>>>>> eeca1c3 (edit)
 import {
   directoryId,
   normalizeDirectories,
@@ -196,7 +204,11 @@ function App() {
     setActiveNav(result.pageName)
   }
   const page = useMemo(() => {
+<<<<<<< HEAD
     if (activeNav === 'Dashboard') return <DashboardPage events={events} directories={directories} onCreate={openCreate} onViewArchive={() => setActiveNav('Events')} copy={copy} />
+=======
+    if (activeNav === 'Dashboard') return <DashboardPage events={events} directories={directories} onCreate={openCreate} onViewArchive={() => setActiveNav('Events')} onSelect={setSelectedEvent} onAddClient={() => setDirectoryModal({ page: 'Clients', row: null })} onAddVenue={() => setDirectoryModal({ page: 'Venues', row: null })} copy={copy} />
+>>>>>>> eeca1c3 (edit)
     if (activeNav === 'Events') return <EventsPage events={events} onCreate={openCreate} onSelect={setSelectedEvent} />
     if (activeNav === 'Bookings') return <BookingsPage events={events} onCreate={openCreate} onSelect={setSelectedEvent} />
     if (activeNav === 'Settings') return <SettingsPage language={language} onLanguageChange={setLanguage} copy={copy} />
@@ -205,7 +217,11 @@ function App() {
   useEffect(() => { window.localStorage.setItem(languageKey, JSON.stringify(language)) }, [language])
   if (!authenticated) return <LoginPage onLogin={login} language={language} />
   if (isLoading) return <div className="app-state-screen"><LoadingState message="Loading workspace..." /></div>
+<<<<<<< HEAD
   return <div className={`app-shell ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}><aside className="sidebar"><div className="brand"><img src={logo} alt="Allure Events" /><div><strong>ALLURE EVENTS</strong><small>MAKE IT UNFORGETTABLE</small></div></div><nav className="main-nav" aria-label="Main navigation">{navigation.map(([icon, label]) => <button className={activeNav === label ? 'nav-item active' : 'nav-item'} key={label} onClick={() => setActiveNav(label)}><span className="nav-icon">{icon}</span><span>{copy[label.toLowerCase()]}</span></button>)}</nav><div className="sidebar-quote"><div className="leaf-decoration">⌁</div><em>{language === 'ar' ? <>لحظات جميلة<br />مخططة بعناية.</> : <>Beautiful moments<br />well planned.</>}</em></div></aside><main className="main-content"><header className="topbar"><div className="global-search-wrap"><div className="search-global"><span>⌕</span><input value={globalQuery} onChange={(event) => setGlobalQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Escape') setGlobalQuery('') }} placeholder={copy.search} aria-label={copy.search} /></div>{globalQuery.trim() && <div className="global-search-results">{globalResults.length ? globalResults.map((result) => <button className="global-search-result" key={`${result.type}-${result.title}`} onClick={() => selectGlobalResult(result)}><span className="global-result-type">{result.type}</span><strong>{result.title}</strong><small>{result.detail}</small></button>) : <div className="global-search-empty">No matching records found.</div>}</div>}</div><div className="profile-area"><button className="icon-button notification-button" onClick={() => setShowNotifications(!showNotifications)}>♧<i /></button>{showNotifications && <div className="notification-popover"><strong>{copy.notifications}</strong><p>{language === 'ar' ? 'تم استلام طلب جديد لحفل سارة وأحمد.' : "New inquiry received for Sarah & Ahmad's Wedding."}</p></div>}<button className="avatar profile-avatar" onClick={logout}>IT</button><div className="profile-copy"><strong>Ibraheem Touma</strong><small>{copy.officeAdmin}</small></div><span className="chevron">⌄</span></div></header>{dataError && <ErrorState message={dataError} onDismiss={() => setDataError('')} />}<div key={`${activeNav}-${language}`} className="page-transition">{page}</div></main>{showCreate && <CreateDossier venues={venues} staff={staff} existingEvents={events} initialEvent={editingEvent} onClose={() => { setShowCreate(false); setEditingEvent(null) }} onSave={saveEvent} />}{selectedEvent && <EventDetail event={selectedEvent} onClose={() => setSelectedEvent(null)} onEdit={(event) => { setSelectedEvent(null); setEditingEvent(event); setShowCreate(true) }} onDelete={removeEvent} />}{directoryModal && <DirectoryForm page={directoryModal.page} events={events} initialRow={directoryModal.row} onClose={() => setDirectoryModal(null)} onSave={(row) => saveDirectory(directoryModal.page, row, directoryModal.row)} />}</div>
+=======
+  return <div className={`app-shell ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}><aside className="sidebar"><div className="brand"><img src={logo} alt="Allure Events" /><div><strong>ALLURE EVENTS</strong><small>MAKE IT UNFORGETTABLE</small></div></div><nav className="main-nav" aria-label="Main navigation">{navigation.map(([icon, label]) => <button className={activeNav === label ? 'nav-item active' : 'nav-item'} key={label} onClick={() => setActiveNav(label)}><span className="nav-icon">{icon}</span><span>{copy[label.toLowerCase()]}</span></button>)}</nav><div className="sidebar-quote"><img className="sidebar-art" src={sidebarArt} alt="" /><em>{language === 'ar' ? <>لحظات جميلة<br />مخططة بعناية.</> : <>Beautiful moments<br />well planned.</>}</em></div></aside><main className="main-content"><header className="topbar"><div className="global-search-wrap"><div className="search-global"><span>⌕</span><input value={globalQuery} onChange={(event) => setGlobalQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Escape') setGlobalQuery('') }} placeholder={copy.search} aria-label={copy.search} /></div>{globalQuery.trim() && <div className="global-search-results">{globalResults.length ? globalResults.map((result) => <button className="global-search-result" key={`${result.type}-${result.title}`} onClick={() => selectGlobalResult(result)}><span className="global-result-type">{result.type}</span><strong>{result.title}</strong><small>{result.detail}</small></button>) : <div className="global-search-empty">No matching records found.</div>}</div>}</div><div className="profile-area"><button className="icon-button notification-button" onClick={() => setShowNotifications(!showNotifications)}>♧<i /></button>{showNotifications && <div className="notification-popover"><strong>{copy.notifications}</strong><p>{language === 'ar' ? 'تم استلام طلب جديد لحفل سارة وأحمد.' : "New inquiry received for Sarah & Ahmad's Wedding."}</p></div>}<button className="avatar profile-avatar" onClick={logout}>IT</button><div className="profile-copy"><strong>Ibraheem Touma</strong><small>{copy.officeAdmin}</small></div><span className="chevron">⌄</span></div></header>{dataError && <ErrorState message={dataError} onDismiss={() => setDataError('')} />}<div key={`${activeNav}-${language}`} className="page-transition">{page}</div></main>{showCreate && <CreateDossier venues={venues} staff={staff} existingEvents={events} initialEvent={editingEvent} onClose={() => { setShowCreate(false); setEditingEvent(null) }} onSave={saveEvent} />}{selectedEvent && <EventDetail event={selectedEvent} onClose={() => setSelectedEvent(null)} onEdit={(event) => { setSelectedEvent(null); setEditingEvent(event); setShowCreate(true) }} onDelete={removeEvent} />}{directoryModal && <DirectoryForm page={directoryModal.page} events={events} initialRow={directoryModal.row} onClose={() => setDirectoryModal(null)} onSave={(row) => saveDirectory(directoryModal.page, row, directoryModal.row)} />}</div>
+>>>>>>> eeca1c3 (edit)
 }
 
 export default App
