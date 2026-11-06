@@ -1,16 +1,10 @@
-<<<<<<< HEAD
-=======
 import { useEffect, useId, useRef } from 'react'
 
->>>>>>> eeca1c3 (edit)
 export function EventArt({ type = 'wedding' }) {
   return <div className={`event-art art-${type}`} aria-hidden="true"><span>{type === 'wedding' || type === 'engagement' ? '✦' : type === 'gala' || type === 'party' ? '✧' : '❋'}</span></div>
 }
 
 export function Modal({ title, children, onClose, wide = false }) {
-<<<<<<< HEAD
-  return <div className="modal-backdrop" onClick={onClose}><div className={`modal ${wide ? 'modal-wide' : ''}`} onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={onClose}>×</button>{title && <h2>{title}</h2>}{children}</div></div>
-=======
   const titleId = useId()
   const closeRef = useRef(null)
 
@@ -30,7 +24,6 @@ export function Modal({ title, children, onClose, wide = false }) {
       {children}
     </div>
   </div>
->>>>>>> eeca1c3 (edit)
 }
 
 export function LoadingState({ message = 'Loading...' }) {

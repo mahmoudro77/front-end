@@ -1,5 +1,4 @@
 /* Booking workspace */
-<<<<<<< HEAD
 .brand img { width: 35px; height: 35px; object-fit: cover; border-radius: 50%; }
 .booking-page { padding-top: 0; }
 .booking-hero { height: 110px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; border-radius: 0 0 7px 7px; overflow: hidden; background: linear-gradient(90deg, #f8f5f0 0%, #f8f5f0 32%, #d8b39d 70%, #4b1013 100%); }
@@ -34,7 +33,6 @@
 .section-heading { min-height: 42px; }
 .section-heading h2 { font-size: 12px; }
 .section-heading button { font-size: 9px; }
-=======
 .brand img {
     width: 35px;
     height: 35px;
@@ -270,4 +268,3 @@
 .section-heading button {
     font-size: 9px;
 }
->>>>>>> eeca1c3 (edit)
